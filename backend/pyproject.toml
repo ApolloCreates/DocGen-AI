@@ -12,6 +12,7 @@ dependencies = [
     "langgraph>=1.2.10",
     "networkx>=3.6.1",
     "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.2",
     "python-dotenv>=1.2.2",
     "tree-sitter>=0.26.0",
     "tree-sitter-language-pack>=1.13.7",
