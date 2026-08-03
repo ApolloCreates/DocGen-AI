@@ -12,7 +12,15 @@ pipeline = RepositoryPipeline()
 @router.post("/analyze")
 def analyze(request: RepositoryAnalyzeRequest):
 
-    return pipeline.run(str(request.url)).model_dump()
+    repository = pipeline.run(str(request.url))
+
+    return {
+
+        "repository": repository.name,
+
+        "readme": repository.documentation["README.md"]
+
+    }
 
 @router.post("/debug")
 def debug_repository(request: RepositoryAnalyzeRequest):
@@ -27,4 +35,17 @@ def debug_repository(request: RepositoryAnalyzeRequest):
             if repository.parsed_files
             else None
         ),
+    }
+    
+    
+from app.core.settings import get_settings
+
+
+@router.get("/config-test")
+def config_test():
+
+    settings = get_settings()
+
+    return {
+        "api_key_loaded": bool(settings.GEMINI_API_KEY)
     }

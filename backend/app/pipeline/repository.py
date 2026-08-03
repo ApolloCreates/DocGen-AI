@@ -8,7 +8,6 @@ from app.pipeline.stages.scan import ScanStage
 from app.pipeline.stages.parse import ParseStage
 from app.pipeline.stages.documentation import DocumentationStage
 from app.pipeline.stages.index import IndexStage
-from app.pipeline.stages.symbols import SymbolStage
 
 
 class RepositoryPipeline:
@@ -22,8 +21,6 @@ class RepositoryPipeline:
             ScanStage(),
 
             ParseStage(),
-            
-            SymbolStage(),
             
             IndexStage(),
             

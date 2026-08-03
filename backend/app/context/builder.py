@@ -1,5 +1,4 @@
 from app.context.models import ReadmeContext
-from backend.app.api.routes import repository
 
 
 class ContextBuilder:
@@ -8,18 +7,10 @@ class ContextBuilder:
 
         index = repository.index
 
-        languages = sorted(
-            {
-                file.language
-                for file in index.files
-            }
-        )
-        
         classes = []
-
         functions = []
 
-        for parsed in repository.index.files:
+        for parsed in index.files:
 
             classes.extend(
                 c.name
@@ -37,7 +28,7 @@ class ContextBuilder:
 
             frameworks=index.frameworks,
 
-            file_tree=index.file_tree,
+            languages=index.languages,
 
             total_files=index.total_files,
 
@@ -47,9 +38,15 @@ class ContextBuilder:
 
             total_endpoints=index.total_endpoints,
 
-            languages=languages,
-            
-            sample_classes=classes[:5],
-            
-            sample_functions=functions[:5],
+            dependencies=index.dependencies,
+
+            package_manager=index.package_manager,
+
+            entry_points=index.entry_points,
+
+            file_tree=index.file_tree,
+
+            sample_classes=classes[:10],
+
+            sample_functions=functions[:20],
         )

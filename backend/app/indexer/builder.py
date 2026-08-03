@@ -7,8 +7,8 @@ from app.discovery.package_manager import PackageManagerDiscovery
 from app.discovery.package_manager import PackageManagerDiscovery
 from app.discovery.entrypoints import EntryPointDiscovery
 from app.indexer.framework import detect_frameworks
-from backend.data.repos.fastapi.tests.test_ws_dependencies import index
-
+from data.repos.fastapi.tests.test_ws_dependencies import index
+from app.indexer.models import RepositoryIndex
 
 class RepositoryIndexer:
 
@@ -34,9 +34,9 @@ class RepositoryIndexer:
 
         index.languages = sorted(languages)
         
-        index.frameworks = detect_frameworks(
-            repository.root
-        )
+        # index.frameworks = detect_frameworks(
+        #     repository.root
+        # )
         
         self.dependencies = DependencyDiscovery()
         self.entrypoints = EntryPointDiscovery()
@@ -44,21 +44,21 @@ class RepositoryIndexer:
         self.package_manager = PackageManagerDiscovery()
 
 
-        index.dependencies = self.dependencies.discover(
-            repository.root
-        )
+        # index.dependencies = self.dependencies.discover(
+        #     repository.root
+        # )
 
-        index.entry_points = self.entrypoints.discover(
-            repository.root
-        )
+        # index.entry_points = self.entrypoints.discover(
+        #     repository.root
+        # )
 
-        index.config_files = self.config.discover(
-            repository.root
-        )
+        # index.config_files = self.config.discover(
+        #     repository.root
+        # )
     
-        index.package_manager = self.package_manager.discover(
-            repository.root
-        )
+        # index.package_manager = self.package_manager.discover(
+        #     repository.root
+        # )
         
         for parsed in repository.parsed_files:
 

@@ -1,29 +1,30 @@
 README_PROMPT = """
-You are a senior software engineer.
+You are an expert software engineer.
 
 Generate a professional README.md.
 
-Repository Information
+Rules:
+
+- Do NOT invent features.
+- Use ONLY the repository information below.
+- If information is unavailable, omit that section.
+- Return valid Markdown only.
+
+Repository Information:
 
 {context}
 
-Do not invent features.
+Include:
 
-If information is unavailable, omit that section
+# Project Overview
 
-Return Markdown only.
+# Features
 
-Sections:
+# Tech Stack
 
-# Project
+# Project Statistics
 
-## Features
+# Installation
 
-## Tech Stack
-
-## Project Statistics
-
-## Installation
-
-## Folder Structure
+# Folder Structure
 """

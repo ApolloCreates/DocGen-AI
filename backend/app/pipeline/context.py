@@ -3,8 +3,8 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from app.github.models import SourceFile
+from app.indexer.models import RepositoryIndex
 from app.parser.models import ParsedFile
-from app.indexer.models import RepositoryIndex, RepositoryIndex, RepositorySymbols
 
 
 class RepositoryContext(BaseModel):
@@ -29,15 +29,11 @@ class RepositoryContext(BaseModel):
     # Graph Stage (Future)
     graph: dict = Field(default_factory=dict)
 
-    # Index Stage (Future)
+    # Index Stage
     index: RepositoryIndex | None = None
 
-    # Documentation Stage (Future)
+    # Documentation Stage
     documentation: dict[str, str] = Field(default_factory=dict)
 
     # Metadata
     metadata: dict = Field(default_factory=dict)
-    
-    symbols: RepositorySymbols | None = None
-    
-    
