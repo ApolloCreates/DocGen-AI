@@ -1,0 +1,3 @@
+OUTPUT_DIR = "outputs"
+
+README_FILE = "README.md"

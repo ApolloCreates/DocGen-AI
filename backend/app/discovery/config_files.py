@@ -1,38 +1,35 @@
 from pathlib import Path
 
 
-CONFIG_FILES = {
-
+CONFIG_FILES = [
+    ".env",
     ".env.example",
-
-    "Dockerfile",
-
-    "docker-compose.yml",
-
-    "docker-compose.yaml",
-
+    ".gitignore",
     "pyproject.toml",
-
     "requirements.txt",
-
+    "Dockerfile",
+    "docker-compose.yml",
+    "docker-compose.yaml",
+    "compose.yml",
+    "compose.yaml",
     "package.json",
-
+    "Makefile",
     "README.md",
-}
+]
 
 
-class ConfigDiscovery:
+def detect_config_files(root: Path) -> list[str]:
+    """
+    Return configuration files found at the repository root.
+    """
 
-    def discover(self, root: Path):
+    found = []
 
-        configs = []
+    for file in CONFIG_FILES:
 
-        for path in root.rglob("*"):
+        path = root / file
 
-            if path.name in CONFIG_FILES:
+        if path.exists():
+            found.append(file)
 
-                configs.append(
-                    str(path.relative_to(root))
-                )
-
-        return sorted(configs)
+    return sorted(found)

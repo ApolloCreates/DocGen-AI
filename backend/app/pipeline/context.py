@@ -5,6 +5,9 @@ from pydantic import BaseModel, Field
 from app.github.models import SourceFile
 from app.indexer.models import RepositoryIndex
 from app.parser.models import ParsedFile
+from app.api.routes import repository
+from app.mapper.builder import RepositoryMapper
+from app.discovery.models import DiscoveryResult
 
 
 class RepositoryContext(BaseModel):
@@ -37,3 +40,9 @@ class RepositoryContext(BaseModel):
 
     # Metadata
     metadata: dict = Field(default_factory=dict)
+    
+    # repository.map = RepositoryMapper().build(repository)
+    
+    discovery: DiscoveryResult = Field(
+        default_factory=DiscoveryResult
+    )

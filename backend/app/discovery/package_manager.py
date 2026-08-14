@@ -1,29 +1,21 @@
 from pathlib import Path
 
 
-class PackageManagerDiscovery:
+def detect_package_manager(root: Path) -> str | None:
+    """
+    Detect the package manager used by the repository.
+    """
 
-    def discover(self, root: Path):
+    detectors = [
+        ("uv.lock", "uv"),
+        ("poetry.lock", "poetry"),
+        ("Pipfile", "pipenv"),
+        ("requirements.txt", "pip"),
+        ("pyproject.toml", "pyproject"),
+    ]
 
-        if (root / "uv.lock").exists():
-            return "uv"
+    for filename, manager in detectors:
+        if (root / filename).exists():
+            return manager
 
-        if (root / "poetry.lock").exists():
-            return "poetry"
-
-        if (root / "Pipfile").exists():
-            return "pipenv"
-
-        if (root / "requirements.txt").exists():
-            return "pip"
-
-        if (root / "package-lock.json").exists():
-            return "npm"
-
-        if (root / "pnpm-lock.yaml").exists():
-            return "pnpm"
-
-        if (root / "yarn.lock").exists():
-            return "yarn"
-
-        return None
+    return None

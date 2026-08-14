@@ -1,31 +1,28 @@
 from app.parser.models import FunctionSymbol
 
-from .base import BaseVisitor
 
+class FunctionVisitor:
 
-class FunctionVisitor(BaseVisitor):
-
-    def visit(
-        self,
-        node,
-        source,
-        result,
-    ):
+    def visit(self, node, source, result):
 
         if node.type != "function_definition":
             return
 
-        name = node.child_by_field_name("name")
+        name_node = node.child_by_field_name("name")
 
-        if name is None:
+        if name_node is None:
             return
 
-        result.functions.append(
+        source_bytes = source.encode("utf-8")
 
+        name = source_bytes[
+            name_node.start_byte:
+            name_node.end_byte
+        ].decode("utf-8")
+
+        result.functions.append(
             FunctionSymbol(
-                name=source[
-                    name.start_byte:name.end_byte
-                ],
+                name=name,
                 line=node.start_point[0] + 1,
             )
         )

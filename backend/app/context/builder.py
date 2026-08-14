@@ -1,52 +1,68 @@
-from app.context.models import ReadmeContext
+from app.context.models import (
+    ModuleContext,
+    ReadmeContext,
+)
 
 
 class ContextBuilder:
 
     def build_readme(self, repository):
 
-        index = repository.index
+        modules = []
 
-        classes = []
-        functions = []
+        languages = set()
 
-        for parsed in index.files:
+        total_classes = 0
+        total_functions = 0
 
-            classes.extend(
-                c.name
-                for c in parsed.classes
-            )
+        for parsed in repository.parsed_files:
 
-            functions.extend(
-                f.name
-                for f in parsed.functions
+            languages.add(parsed.language)
+
+            total_classes += len(parsed.classes)
+
+            total_functions += len(parsed.functions)
+
+            modules.append(
+
+                ModuleContext(
+
+                    path=parsed.path.replace(
+                        str(repository.root) + "/",
+                        "",
+                    ),
+
+                    classes=[
+                        c.name
+                        for c in parsed.classes
+                    ],
+
+                    functions=[
+                        f.name
+                        for f in parsed.functions
+                    ],
+
+                    imports=[
+                        i.module
+                        for i in parsed.imports
+                    ],
+
+                )
+
             )
 
         return ReadmeContext(
 
             project_name=repository.name,
 
-            frameworks=index.frameworks,
+            languages=sorted(languages),
 
-            languages=index.languages,
+            total_files=len(repository.parsed_files),
 
-            total_files=index.total_files,
+            total_classes=total_classes,
 
-            total_classes=index.total_classes,
+            total_functions=total_functions,
 
-            total_functions=index.total_functions,
+            modules=modules,
 
-            total_endpoints=index.total_endpoints,
-
-            dependencies=index.dependencies,
-
-            package_manager=index.package_manager,
-
-            entry_points=index.entry_points,
-
-            file_tree=index.file_tree,
-
-            sample_classes=classes[:10],
-
-            sample_functions=functions[:20],
         )

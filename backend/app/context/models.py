@@ -1,10 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+
+class ModuleContext(BaseModel):
+    path: str
+
+    classes: list[str] = Field(default_factory=list)
+
+    functions: list[str] = Field(default_factory=list)
+
+    imports: list[str] = Field(default_factory=list)
 
 
 class ReadmeContext(BaseModel):
-    project_name: str
 
-    frameworks: list[str]
+    project_name: str
 
     languages: list[str]
 
@@ -14,16 +23,4 @@ class ReadmeContext(BaseModel):
 
     total_functions: int
 
-    total_endpoints: int
-
-    dependencies: list[str]
-
-    package_manager: str | None
-
-    entry_points: list[str]
-
-    file_tree: list[str]
-
-    sample_classes: list[str]
-
-    sample_functions: list[str]
+    modules: list[ModuleContext] = Field(default_factory=list)

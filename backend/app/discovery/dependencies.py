@@ -1,17 +1,22 @@
 from pathlib import Path
 
 
-class DependencyDiscovery:
+def detect_dependencies(root: Path) -> list[str]:
 
-    def discover(self, root: Path) -> list[str]:
+    dependencies = set()
 
-        dependencies = []
+    requirements = root / "requirements.txt"
 
-        requirements = root / "requirements.txt"
+    if requirements.exists():
 
-        if requirements.exists():
+        try:
 
-            for line in requirements.read_text().splitlines():
+            text = requirements.read_text(
+                encoding="utf-8",
+                errors="ignore",
+            )
+
+            for line in text.splitlines():
 
                 line = line.strip()
 
@@ -22,12 +27,15 @@ class DependencyDiscovery:
                     continue
 
                 package = (
-                    line.split("==")[0]
-                    .split(">=")[0]
-                    .split("<=")[0]
+                    line.replace(">=", "==")
+                    .split("==")[0]
                     .strip()
                 )
 
-                dependencies.append(package)
+                dependencies.add(package)
 
-        return sorted(dependencies)
+        except Exception:
+
+            pass
+
+    return sorted(dependencies)

@@ -1,11 +1,13 @@
 from app.agents.base import BaseAgent
-from app.prompts.readme import README_PROMPT
+from app.prompts.installation import (
+    INSTALLATION_PROMPT,
+)
 
 from app.knowledge.formatter import (
     KnowledgeFormatter,
 )
 
-class ReadmeAgent(BaseAgent):
+class InstallationAgent(BaseAgent):
 
     def __init__(self):
 
@@ -15,7 +17,7 @@ class ReadmeAgent(BaseAgent):
             KnowledgeFormatter()
         )
 
-    def generate_readme(
+    def generate_installation(
         self,
         knowledge,
     ):
@@ -24,7 +26,7 @@ class ReadmeAgent(BaseAgent):
             knowledge
         )
 
-        prompt = README_PROMPT.format(
+        prompt = INSTALLATION_PROMPT.format(
             context=context
         )
 

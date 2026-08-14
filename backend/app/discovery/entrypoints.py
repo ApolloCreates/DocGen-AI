@@ -1,32 +1,29 @@
 from pathlib import Path
 
 
-ENTRY_POINTS = {
-
+ENTRYPOINT_NAMES = {
     "main.py",
-
     "app.py",
-
-    "manage.py",
-
+    "server.py",
     "run.py",
-
-    "__main__.py",
+    "manage.py",
+    "cli.py",
 }
 
 
-class EntryPointDiscovery:
+def detect_entrypoints(root: Path) -> list[str]:
+    """
+    Detect likely application entrypoints.
+    """
 
-    def discover(self, root: Path):
+    entrypoints = []
 
-        found = []
+    for file in root.rglob("*.py"):
 
-        for path in root.rglob("*"):
+        if file.name in ENTRYPOINT_NAMES:
 
-            if path.is_file() and path.name in ENTRY_POINTS:
+            entrypoints.append(
+                str(file.relative_to(root))
+            )
 
-                found.append(
-                    str(path.relative_to(root))
-                )
-
-        return sorted(found)
+    return sorted(entrypoints)

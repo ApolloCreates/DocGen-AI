@@ -1,11 +1,13 @@
 from app.agents.base import BaseAgent
-from app.prompts.readme import README_PROMPT
+from app.prompts.architecture import (
+    ARCHITECTURE_PROMPT,
+)
 
 from app.knowledge.formatter import (
     KnowledgeFormatter,
 )
 
-class ReadmeAgent(BaseAgent):
+class ArchitectureAgent(BaseAgent):
 
     def __init__(self):
 
@@ -15,7 +17,7 @@ class ReadmeAgent(BaseAgent):
             KnowledgeFormatter()
         )
 
-    def generate_readme(
+    def generate_architecture(
         self,
         knowledge,
     ):
@@ -24,7 +26,7 @@ class ReadmeAgent(BaseAgent):
             knowledge
         )
 
-        prompt = README_PROMPT.format(
+        prompt = ARCHITECTURE_PROMPT.format(
             context=context
         )
 

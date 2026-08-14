@@ -1,11 +1,11 @@
 from app.agents.base import BaseAgent
-from app.prompts.readme import README_PROMPT
+from app.prompts.summary import SUMMARY_PROMPT
 
 from app.knowledge.formatter import (
     KnowledgeFormatter,
 )
 
-class ReadmeAgent(BaseAgent):
+class SummaryAgent(BaseAgent):
 
     def __init__(self):
 
@@ -15,7 +15,7 @@ class ReadmeAgent(BaseAgent):
             KnowledgeFormatter()
         )
 
-    def generate_readme(
+    def generate_summary(
         self,
         knowledge,
     ):
@@ -24,7 +24,7 @@ class ReadmeAgent(BaseAgent):
             knowledge
         )
 
-        prompt = README_PROMPT.format(
+        prompt = SUMMARY_PROMPT.format(
             context=context
         )
 
