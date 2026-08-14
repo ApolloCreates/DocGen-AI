@@ -23,7 +23,10 @@ class DocumentationAgent(BaseAgent):
             context=context
         )
 
-        response = self.generate_content(prompt)
+        response = self.generate_content(
+            prompt,
+            json_mode=True,
+        )
 
         return self._parse_response(response)
 

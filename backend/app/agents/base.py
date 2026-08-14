@@ -1,3 +1,4 @@
+from click import prompt
 from groq import Groq
 
 from app.core.settings import get_settings
@@ -23,27 +24,26 @@ class BaseAgent:
     def generate_content(
         self,
         prompt: str,
+        json_mode: bool = False,
     ):
 
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[
+        kwargs = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": [
                 {
                     "role": "user",
                     "content": prompt,
                 }
             ],
-            temperature=0.2,
-            response_format={
+        }
+
+        if json_mode:
+            kwargs["response_format"] = {
                 "type": "json_object"
-            },
+            }
+
+        response = self.client.chat.completions.create(
+            **kwargs
         )
 
-        content = response.choices[0].message.content
-
-        if not content:
-            raise ValueError(
-                "LLM returned an empty response"
-            )
-
-        return content
+        return response.choices[0].message.content
