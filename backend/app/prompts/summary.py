@@ -1,27 +1,43 @@
 SUMMARY_PROMPT = """
-You are a senior software engineer.
+You are analyzing a software repository for a developer.
 
-Write a professional project summary.
+Generate a concise but technically meaningful project summary.
 
-Use ONLY the information provided.
+Use repository structure, imports, functions, classes, frameworks,
+dependencies and entry points to understand the project's purpose.
 
-Do NOT invent features.
+Do not simply repeat filenames.
 
-Repository Information:
+Explain:
+
+1. Project Purpose
+2. Main Functionality
+3. Core Components
+4. Technologies
+5. Important Modules
+6. High-Level Workflow
+7. Inputs and Outputs
+8. External Services
+9. Storage / Data Layer
+
+Make reasonable technical inferences from the available evidence.
+
+For example, if the repository contains:
+- a Streamlit entry point
+- LangGraph workflow orchestration
+- an interviewer node
+- an auditor node
+- a librarian node
+- Chroma
+- HuggingFace embeddings
+- Groq
+
+you should explain how these components likely work together.
+
+Only say something is unknown when there is genuinely insufficient
+evidence.
+
+Repository information:
 
 {context}
-
-Generate:
-
-# Project Summary
-
-Include:
-
-- What the project is
-- Main purpose
-- Technologies used
-- Key modules
-- High-level workflow
-
-Return Markdown only.
 """

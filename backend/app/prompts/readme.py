@@ -1,47 +1,82 @@
 README_PROMPT = """
+You are a senior technical writer and software engineer.
 
-STRICT ACCURACY RULES:
+Generate a detailed, production-quality README for the repository
+using the repository analysis provided below.
 
-- Use only facts present in the repository context.
-- Never invent dependencies.
-- Never invent environment variables.
-- Never invent installation commands.
-- Never invent package managers.
-- Never invent commands for running the application.
-- If installation information is unavailable, explicitly say so.
-- If environment variables are unavailable, omit that section.
-- If the entry point is unknown, do not guess.
-- The repository tree provided in the context is authoritative.
-- Do not modify or reinterpret file names.
+Do not merely list metadata.
 
+Read the actual source code.
 
-You are an expert software engineer.
+Identify what the application does.
 
-Generate a professional README.md.
+Trace the main execution path.
 
-Use ONLY the repository information below.
+Identify user input.
 
-Do NOT invent features.
+Identify processing steps.
 
-If information is unavailable, omit that section.
+Identify AI calls.
 
-Repository:
+Identify storage/retrieval.
+
+Identify outputs.
+
+Then explain the project to a developer who has never seen the
+repository.
+Do not use phrases such as:
+
+"The project uses Python."
+
+"The project contains various modules."
+
+"The architecture could not be determined."
+
+unless the information genuinely cannot be determined.
+
+Prefer concrete statements containing actual filenames,
+function names, classes, libraries, and execution steps.
+
+Analyze the module names, imports, frameworks, dependencies,
+functions, classes, entry points, and repository structure to explain
+what the software actually does.
+
+You may make reasonable technical inferences from the code structure.
+
+The README should contain:
+
+1. Project Overview
+2. Key Features
+3. Architecture Overview
+4. Repository Structure
+5. How the Main Components Work
+6. Tech Stack
+7. Important Modules
+8. Installation
+9. Configuration
+10. Environment Variables
+11. Running the Application
+12. Usage
+13. Workflow
+14. Dependencies
+15. Future Improvements
+
+When explaining a module, describe its likely responsibility based on
+its imports and functions.
+
+For example, if a module contains an `audit_claim` function and imports
+an LLM client and vector database, explain that it appears to perform
+AI-assisted claim auditing using retrieved policy information.
+
+Do not use vague statements such as:
+"The project contains various modules."
+
+Be specific and technical.
+
+If something genuinely cannot be determined, say so only for that
+specific item rather than making the entire section "Not determined."
+
+Repository information:
 
 {context}
-
-Generate these sections:
-
-# Project Overview
-
-# Folder Structure
-
-# Tech Stack
-
-# Main Modules
-
-# Installation
-
-# Usage
-
-Return Markdown only.
 """

@@ -7,5 +7,5 @@ router = APIRouter()
 def health():
 
     return {
-        "status": "healthy"
+        "status": "ok"
     }

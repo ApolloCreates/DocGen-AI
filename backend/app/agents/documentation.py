@@ -3,12 +3,12 @@ import json
 from app.agents.base import BaseAgent
 from app.knowledge.formatter import KnowledgeFormatter
 from app.prompts.documentation import DOCUMENTATION_PROMPT
+from app.utils.mermaid import sanitize_mermaid
 
 
 class DocumentationAgent(BaseAgent):
 
     def __init__(self):
-
         super().__init__()
 
         self.formatter = KnowledgeFormatter()
@@ -28,6 +28,14 @@ class DocumentationAgent(BaseAgent):
             json_mode=True,
         )
 
+        print(
+            "\n========== DOCUMENTATION MODEL RESPONSE =========="
+        )
+        print(response)
+        print(
+            "===================================================\n"
+        )
+
         return self._parse_response(response)
 
     def _parse_response(self, response):
@@ -41,7 +49,10 @@ class DocumentationAgent(BaseAgent):
             if lines and lines[0].startswith("```"):
                 lines = lines[1:]
 
-            if lines and lines[-1].strip() == "```":
+            if (
+                lines
+                and lines[-1].strip() == "```"
+            ):
                 lines = lines[:-1]
 
             response = "\n".join(lines)
@@ -63,10 +74,31 @@ class DocumentationAgent(BaseAgent):
             "installation",
         }
 
-        if set(result.keys()) != required:
+        missing = required - set(result.keys())
+
+        if missing:
 
             raise ValueError(
-                "Documentation agent returned unexpected fields"
+                f"Documentation agent missing fields: {missing}"
             )
 
-        return result
+        extra = set(result.keys()) - required
+
+        if extra:
+
+            raise ValueError(
+                f"Documentation agent returned unexpected fields: {extra}"
+            )
+
+        # Clean common Mermaid syntax mistakes
+        # produced by the LLM.
+        result["architecture"] = sanitize_mermaid(
+            result["architecture"]
+        )
+
+        return {
+            "readme": result["readme"],
+            "architecture": result["architecture"],
+            "summary": result["summary"],
+            "installation": result["installation"],
+        }

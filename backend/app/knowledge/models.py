@@ -7,12 +7,19 @@ class ModuleKnowledge(BaseModel):
 
     language: str
 
-    imports: list[str] = Field(default_factory=list)
+    imports: list[str] = Field(
+        default_factory=list
+    )
 
-    classes: list[str] = Field(default_factory=list)
+    classes: list[str] = Field(
+        default_factory=list
+    )
 
-    functions: list[str] = Field(default_factory=list)
+    functions: list[str] = Field(
+        default_factory=list
+    )
 
+    source: str = ""
 
 class RepositoryStatistics(BaseModel):
 

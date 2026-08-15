@@ -1,65 +1,109 @@
 ARCHITECTURE_PROMPT = """
 You are an expert software architect.
 
-Your task is to analyze the repository information below and generate a technical architecture document.
+You are given BOTH repository metadata AND actual source code.
 
-Rules:
-- Use ONLY the information provided.
-- Do NOT invent components, APIs, or technologies.
-- If information is unavailable, explicitly state that it could not be determined.
-- Return valid Markdown only.
+Your job is to reconstruct how the software actually works.
 
-Repository Information:
+DO NOT write a generic software documentation template.
 
-{context}
+DO NOT simply list:
+- Python
+- files
+- frameworks
+- functions
 
-Generate the document using the following structure:
+Instead, trace the relationships between the actual source files.
+
+For every important component, determine:
+
+1. What is its responsibility?
+2. What does it receive as input?
+3. What does it produce?
+4. Which other modules does it call?
+5. Which libraries does it depend on?
+6. Where does execution start?
+7. How does execution move through the system?
+8. Where does data change form?
+9. Where are AI/LLM calls made?
+10. Where is data persisted or retrieved?
+
+Use actual function names and file paths from the source.
+
+When source code demonstrates behavior, explain that behavior specifically.
+
+For example, do not write:
+
+"auditor.py handles auditing."
+
+Instead explain:
+
+"`audit_claim` receives the extracted claim information, creates or
+uses the configured language model and vector store, retrieves
+relevant policy information, and evaluates the claim against that
+context."
+
+Only state behavior that can be supported by the supplied source code.
+
+If something cannot be determined from the supplied source, say so.
+
+Generate:
 
 # Architecture Overview
 
-Briefly describe the overall purpose of the application.
+Explain the actual architecture in 2-4 paragraphs.
 
 # High-Level Design
 
-Explain the overall architecture (for example: modular, layered, event-driven, workflow-based, etc.) based only on the provided information.
-
-# Project Structure
-
-Describe the major modules.
-
-For each module include:
-- Responsibility
-- Classes
-- Functions
-- External dependencies
+Describe the major components and their responsibilities.
 
 # Execution Flow
 
-Describe how the application starts and how execution flows between modules.
+Trace execution from the application's entry point through the
+important functions.
 
-If the entry point cannot be determined, say so.
+Use numbered steps.
+
+# Module Relationships
+
+Explain which modules depend on which other modules.
+
+Use actual filenames and function names.
+
+# Data Flow
+
+Explain how information moves through the system.
+
+# AI / ML Components
+
+Identify every LLM, embedding model, vector database, retrieval
+component, and AI-related library and explain its role.
+
+# Storage
+
+Explain databases, vector stores, files, or other persistence.
 
 # Technologies Used
 
-List all detected languages, frameworks and major libraries.
+Explain why each major technology is used.
 
-# Internal Module Relationships
+# Project Structure
 
-Explain how modules interact using their imports and responsibilities.
+Explain important directories and files.
 
-# Statistics
+Repository metadata and source code:
 
-Include:
+============================================================
+ARCHITECTURE DIAGRAM
+============================================================
 
-- Total Files
-- Total Classes
-- Total Functions
-- Languages
+The architecture documentation MUST include a Mermaid diagram.
 
-# Future Improvements
+Place it near the beginning of the architecture document using:
 
-Suggest architectural improvements that would naturally fit this codebase.
-Do not suggest technologies that are unrelated to the repository.
+```mermaid
+flowchart TD
+    ...
 
-Return Markdown only.
+{context}
 """

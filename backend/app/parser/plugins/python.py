@@ -40,6 +40,7 @@ class PythonPlugin:
         result = ParsedFile(
             path=path,
             language="python",
+            source=source
         )
 
         stack = [tree.root_node]

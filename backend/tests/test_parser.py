@@ -13,7 +13,6 @@ def hello():
 """
 
     test_file = tmp_path / "test.py"
-
     test_file.write_text(
         source,
         encoding="utf-8",
@@ -22,12 +21,12 @@ def hello():
     service = ParserService()
 
     result = service.analyze(
-        test_file
+        path=test_file,
     )
 
-    assert result is not None
-
     assert result.language == "python"
+
+    assert result.source == source
 
     assert len(result.classes) == 1
     assert result.classes[0].name == "User"

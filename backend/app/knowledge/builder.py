@@ -52,6 +52,8 @@ class KnowledgeBuilder:
                         for f in parsed.functions
                     ],
 
+                    source=parsed.source,
+
                 )
 
             )
@@ -82,7 +84,7 @@ class KnowledgeBuilder:
             if discovery
             else None
         )
-        
+
         tree = build_tree(repository.root)
 
         return RepositoryKnowledge(
