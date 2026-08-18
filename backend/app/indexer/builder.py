@@ -1,4 +1,3 @@
-from data.repos.fastapi.tests.test_ws_dependencies import index
 from app.indexer.models import RepositoryIndex
 class RepositoryIndexer:
 
