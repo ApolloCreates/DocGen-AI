@@ -4,6 +4,12 @@ You are an expert software architect and technical writer.
 You are given repository metadata and actual source code from a GitHub
 repository.
 
+Return ONLY Markdown.
+
+Do not return JSON.
+Do not wrap the entire response in a JSON object.
+Do not add explanations before or after the Markdown.
+
 Your task is to reverse-engineer the repository and generate FOUR
 separate technical documentation documents.
 

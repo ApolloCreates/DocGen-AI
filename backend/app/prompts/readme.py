@@ -1,6 +1,12 @@
 README_PROMPT = """
 You are a senior technical writer and software engineer.
 
+Return ONLY Markdown.
+
+Do not return JSON.
+Do not wrap the entire response in a JSON object.
+Do not add explanations before or after the Markdown.
+
 Generate a detailed, production-quality README for the repository
 using the repository analysis provided below.
 

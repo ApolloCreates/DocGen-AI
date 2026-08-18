@@ -1,8 +1,10 @@
-import json
-
 from app.agents.base import BaseAgent
 from app.knowledge.formatter import KnowledgeFormatter
 from app.prompts.documentation import DOCUMENTATION_PROMPT
+from app.prompts.architecture import ARCHITECTURE_PROMPT
+from app.prompts.summary import SUMMARY_PROMPT
+from app.prompts.installation import INSTALLATION_PROMPT
+from app.prompts.readme import README_PROMPT
 from app.utils.mermaid import sanitize_mermaid
 
 
@@ -19,86 +21,94 @@ class DocumentationAgent(BaseAgent):
             knowledge
         )
 
-        prompt = DOCUMENTATION_PROMPT.format(
+        print(
+            "\n========== DOCUMENTATION GENERATION =========="
+        )
+
+        readme = self._generate_document(
+            README_PROMPT,
+            context,
+            "README",
+        )
+
+        architecture = self._generate_document(
+            ARCHITECTURE_PROMPT,
+            context,
+            "ARCHITECTURE",
+        )
+
+        summary = self._generate_document(
+            SUMMARY_PROMPT,
+            context,
+            "SUMMARY",
+        )
+
+        installation = self._generate_document(
+            INSTALLATION_PROMPT,
+            context,
+            "INSTALLATION",
+        )
+
+        architecture = sanitize_mermaid(
+            architecture
+        )
+
+        print(
+            "========== DOCUMENTATION COMPLETE ==========\n"
+        )
+
+        return {
+            "readme": readme,
+            "architecture": architecture,
+            "summary": summary,
+            "installation": installation,
+        }
+
+    def _generate_document(
+        self,
+        template,
+        context,
+        name,
+    ):
+
+        prompt = template.format(
             context=context
+        )
+
+        print(
+            f"Generating {name} documentation..."
         )
 
         response = self.generate_content(
             prompt,
-            json_mode=True,
+            json_mode=False,
         )
 
-        print(
-            "\n========== DOCUMENTATION MODEL RESPONSE =========="
-        )
-        print(response)
-        print(
-            "===================================================\n"
+        return self._clean_markdown(
+            response
         )
 
-        return self._parse_response(response)
-
-    def _parse_response(self, response):
+    def _clean_markdown(self, response):
 
         response = response.strip()
 
-        if response.startswith("```"):
+        # Remove accidental markdown fences
+        # around the entire response.
 
-            lines = response.splitlines()
+        if response.startswith("```markdown"):
 
-            if lines and lines[0].startswith("```"):
-                lines = lines[1:]
+            response = response[
+                len("```markdown"):
+            :]
 
-            if (
-                lines
-                and lines[-1].strip() == "```"
-            ):
-                lines = lines[:-1]
+        elif response.startswith("```"):
 
-            response = "\n".join(lines)
+            response = response[
+                len("```"):
+            ]
 
-        try:
+        if response.endswith("```"):
 
-            result = json.loads(response)
+            response = response[:-3]
 
-        except json.JSONDecodeError as exc:
-
-            raise ValueError(
-                "Documentation agent returned invalid JSON"
-            ) from exc
-
-        required = {
-            "readme",
-            "architecture",
-            "summary",
-            "installation",
-        }
-
-        missing = required - set(result.keys())
-
-        if missing:
-
-            raise ValueError(
-                f"Documentation agent missing fields: {missing}"
-            )
-
-        extra = set(result.keys()) - required
-
-        if extra:
-
-            raise ValueError(
-                f"Documentation agent returned unexpected fields: {extra}"
-            )
-
-        # Clean common Mermaid syntax mistakes
-        # produced by the LLM.
-        result["architecture"] = sanitize_mermaid(
-            result["architecture"]
-        )
-
-        return {
-            "readme": result["readme"],
-            "architecture": result["architecture"],
-            "summary": result["summary"],
-            "installation": result["installation"],
-        }
+        return response.strip()

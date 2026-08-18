@@ -2,6 +2,12 @@ INSTALLATION_PROMPT = """
 You are a senior Python developer documenting how to install and run
 a software repository.
 
+Return ONLY Markdown.
+
+Do not return JSON.
+Do not wrap the entire response in a JSON object.
+Do not add explanations before or after the Markdown.
+
 Analyze the repository information carefully.
 
 Use:

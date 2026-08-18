@@ -3,6 +3,12 @@ You are analyzing a software repository for a developer.
 
 Generate a concise but technically meaningful project summary.
 
+Return ONLY Markdown.
+
+Do not return JSON.
+Do not wrap the entire response in a JSON object.
+Do not add explanations before or after the Markdown.
+
 Use repository structure, imports, functions, classes, frameworks,
 dependencies and entry points to understand the project's purpose.
 

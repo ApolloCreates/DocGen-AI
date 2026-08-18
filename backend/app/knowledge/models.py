@@ -23,11 +23,13 @@ class ModuleKnowledge(BaseModel):
 
 class RepositoryStatistics(BaseModel):
 
-    total_files: int
+        total_files: int
 
-    total_classes: int
+        total_classes: int
 
-    total_functions: int
+        total_functions: int
+
+        total_endpoints: int = 0
 
 
 class RepositoryKnowledge(BaseModel):

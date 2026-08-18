@@ -18,6 +18,8 @@ class KnowledgeBuilder:
 
         total_functions = 0
 
+        total_endpoints = 0
+
         for parsed in repository.parsed_files:
 
             languages.add(parsed.language)
@@ -25,6 +27,8 @@ class KnowledgeBuilder:
             total_classes += len(parsed.classes)
 
             total_functions += len(parsed.functions)
+
+            total_endpoints += len(parsed.endpoints)
 
             modules.append(
 
@@ -112,6 +116,7 @@ class KnowledgeBuilder:
                 total_files=len(repository.parsed_files),
                 total_classes=total_classes,
                 total_functions=total_functions,
+                total_endpoints=total_endpoints,
             ),
 
             modules=modules,

@@ -84,6 +84,10 @@ def analyze(
                 ),
                 "total_classes": total_classes,
                 "total_functions": total_functions,
+                "total_endpoints": sum(
+                    len(parsed.endpoints)
+                    for parsed in repository.parsed_files
+                ),
             },
 
             "languages": languages,
